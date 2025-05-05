@@ -1,0 +1,35 @@
+// frontend/src/components/CabBookingForm.js
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function CabBookingForm() {
+    const [formData, setFormData] = useState({
+        name: '',
+        pickup: '',
+        drop: '',
+        time: ''
+    });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const res = await axios.post('http://localhost:5000/book', formData);
+        alert(res.data.message);
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <h2>Cab Booking Form</h2>
+            <input name="name" placeholder="Name" onChange={handleChange} required />
+            <input name="pickup" placeholder="Pickup Location" onChange={handleChange} required />
+            <input name="drop" placeholder="Drop Location" onChange={handleChange} required />
+            <input name="time" type="datetime-local" onChange={handleChange} required />
+            <button type="submit">Book Cab</button>
+        </form>
+    );
+}
+
+export default CabBookingForm;
